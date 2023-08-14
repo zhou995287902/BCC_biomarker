@@ -1,0 +1,4 @@
+"AU0158","GCA_000959505.1","ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/959/505/GCA_000959505.1_ASM95950v1"
+"FDAARGOS_562","GCA_003813045.1","ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/813/045/GCA_003813045.1_ASM381304v1"
+"PC543","GCA_000497165.1","ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/497/165/GCA_000497165.1_Bdolosa1.0"
+"AU0158","GCA_000152585.1","ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/152/585/GCA_000152585.1_ASM15258v1"
