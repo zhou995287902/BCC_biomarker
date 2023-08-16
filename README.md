@@ -1,17 +1,17 @@
-# BCC特异性蛋白标志物筛选
+# Screening for Burkholderia cepacia complex species-specific protein markers
 
-本项目旨在从341株细菌的蛋白组数据中筛选出可作为BCC(布氏杆菌复合群)特异性蛋白标志物的候选蛋白。
+This project aims to screen for candidate proteins that can serve as species-specific protein markers for the Burkholderia cepacia (BCC) from the proteomic data of 341 bacterial strains.
 
-## 依赖
+## Dependencies
 
 - Python 3.6+
 - DIAMOND 0.9.26
 
-## 数据准备
+## Data preparation 
 
-1. 从NCBI Genebank数据库获取78株BCC菌株和263株非BCC菌株的信息,保存到nine_strain_info.csv和other_strain_info.csv文件中。
+1. Obtain information for 78 BCC strains and 263 non-BCC strains from the NCBI Genebank database, and save to files nine_strain_info.csv and other_strain_info.csv.
 
-2. 使用download_ref_seq.py脚本生成下载的download_cmd.sh文件，并从NCBI GenBank数据库下载341株细菌的参考基因组序列数据。
+2. Use the download_ref_seq.py script to generate the download_cmd.sh file, and download the reference genome sequences of 341 bacterial strains from the NCBI GenBank database.
 
 ```bash
 python3 download_ref_seq.py nine_strain_info.csv >> download_cmd.sh
@@ -19,46 +19,45 @@ python3 download_ref_seq.py other_strain_info.csv >> download_cmd.sh
 bash download_cmd.sh
 ```
 
-3. 使用diamond_blastp_cmd.py脚本生成diamond构建数据库的命令文件diamond_mkdb_cmd.sh和diamond蛋白序列比对的命令文件diamond_blastp_cmd2.sh。
+3. Use the diamond_blastp_cmd.py script to generate the diamond database construction command file diamond_mkdb_cmd.sh and the diamond protein sequence alignment command file diamond_blastp_cmd2.sh.
 
-```bash
+```bash 
 python diamond_blastp_cmd.py *.faa
 bash diamond_mkdb_cmd.sh
 bash diamond_blastp_cmd2.sh
 ```
 
-## 筛选流程
+## Screening process
 
-1. 运行diamond构建数据库命令和diamond比对命令,获得所有蛋白序列两两比对的结果文件。
+1. Run the diamond database construction and alignment commands to obtain alignment results for all protein sequences. 
 
-2. 使用filter_nine_strain.py脚本对两两比对的结果文件进行过滤,保留匹配9种BCC基因组型中的任意一种的蛋白序列，得到9种BCC蛋白序列文件。
+2. Use the filter_nine_strain.py script to filter the alignment results, keeping proteins matching any of the 9 BCC genomic types, generating 9 BCC protein files.
 
-3. 使用filter_core_genome.py脚本对9种BCC蛋白序列文件进行进一步筛选，获得出现在所有9种BCC基因组型中的核心蛋白序列文件nine_core_protein_95.table和nine_core_protein_95.fasta。
+3. Use the filter_core_genome.py script to further filter the 9 BCC protein files, obtaining core proteins present in all 9 BCC genomic types in files nine_core_protein.table and nine_core_protein.fasta.
 
-4. 提取特异性蛋白及其编码基因作为BCC特异性蛋白标志物。
+4. Extract specific proteins and their encoding genes as candidate BCC species-specific protein markers.
 
-## 使用方式
+## Usage
 
 ```bash
-# 获取菌株信息 
-# 从NCBI Genebank获取78株BCC菌株和263株非BCC菌株信息,保存到nine_strain_info.csv，other_strain_info.csv
+# Get strain information
+# Obtain 78 BCC and 263 non-BCC strains from NCBI Genebank, save to nine_strain_info.csv and other_strain_info.csv
 
-# 下载参考基因组序列
-python3 download_ref_seq.py nine_strain_info.csv >> download_cmd.sh
+# Download reference genomes
+python3 download_ref_seq.py nine_strain_info.csv >> download_cmd.sh  
 python3 download_ref_seq.py other_strain_info.csv >> download_cmd.sh
 bash download_cmd.sh
 
-# 生成diamond比对命令文件
+# Generate diamond alignment commands 
 python diamond_blastp_cmd.py *.faa
 
-# 运行diamond命令
+# Run diamond commands
 bash diamond_mkdb_cmd.sh
 bash diamond_blastp_cmd2.sh
 
-# 第一步筛选
-python ../../../scripts/filter_nine_strain.py ../../../strain_list/nine_stain.tale ../../../strain_list/other_strain.table all_protein_out.m6 ../all_protein.faa 
+# First round filtering
+python ../../../scripts/filter_nine_strain.py ../../../strain_list/nine_stain.tale ../../../strain_list/other_strain.table all_protein_out.m6 ../all_protein.faa
 
-# 第二步筛选
+# Second round filtering
 python ../../../scripts/filter_core_genome.py ../../../strain_list/nine_stain.table ../../../strain_list/other_strain.table new_goodProteins.m6 ../*faa.gz > filter_nine_core_protein.fasta
-
 ```
