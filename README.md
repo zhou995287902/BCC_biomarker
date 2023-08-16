@@ -1,4 +1,4 @@
-# Screening for Burkholderia cepacia complex species-specific protein markers
+# Screening for Burkholderia cepacia species-specific protein markers
 
 This project aims to screen for candidate proteins that can serve as species-specific protein markers for the Burkholderia cepacia (BCC) from the proteomic data of 341 bacterial strains.
 
